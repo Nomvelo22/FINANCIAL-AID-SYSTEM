@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Grant</title>
+
+</head>
+<body>
+    <h1>Grant Application Form</h1>
+
+    <form action="/grant" method="post" enctype="multipart/form-data">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="surname">Surname:</label>
+        <input type="text" id="surname" name="surname" required><br><br>
+
+        <label for="student_number">Student Number:</label>
+        <input type="text" name="student_number" id="student_number" placeholder="Student number:" required>
+        <span id="student_number_error" style="color: red;"></span><br><br>
+
+        <!-- JavaScript code to disable Save button if ID number is not 13 digits long -->
+        <script>
+            // Function to validate student number
+            function validateStudentNumber(studentNumber) {
+                return studentNumber.length === 8 && !isNaN(studentNumber);
+            }
+
+            // Function to enable or disable submit buttons based on validation result
+            function toggleSubmitButtons() {
+                var studentNumber = document.getElementById('student_number').value;
+                var submitButtons = document.querySelectorAll('[type="submit"]');
+
+                if (!validateStudentNumber(studentNumber)) {
+                    submitButtons.forEach(function (button) {
+                        button.disabled = true; // Disable submit buttons if validation fails
+                    });
+                } else {
+                    submitButtons.forEach(function (button) {
+                        button.disabled = false; // Enable submit buttons if validation passes
+                    });
+                }
+            }
+
+            // Event listener for the student number input field to provide real-time validation
+            document.getElementById('student_number').addEventListener('input', function () {
+                var studentNumberErrorSpan = document.getElementById('student_number_error');
+                var studentNumber = document.getElementById('student_number').value;
+
+                if (!validateStudentNumber(studentNumber)) {
+                    studentNumberErrorSpan.textContent = 'Student number must be 8 digits long.';
+                } else {
+                    studentNumberErrorSpan.textContent = ''; // Clear error message if input is valid
+                }
+
+                toggleSubmitButtons(); // Toggle submit buttons based on validation result
+            });
+
+            // Initially toggle submit buttons based on student number validation
+            toggleSubmitButtons();
+        </script>
+
+        <label for="id_number">ID Number:</label>
+        <input type="text" name="id_number" id="id_number" placeholder="ID number:" required>
+        <span id="id_error" style="color: red;"></span> <!-- Error message for ID number validation -->
+        <span id="required_error" style="color: red;"></span><br><br> <!-- Error message for incomplete required fields -->
+        <!-- JavaScript code to validate ID number -->
+        <script>
+            // Function to validate ID number
+            function validateIDNumber(idNumber) {
+                return idNumber.length === 13 && !isNaN(idNumber);
+            }
+
+            // Event listener for input field to provide real-time validation
+            document.getElementById('id_number').addEventListener('input', function () {
+                var idNumber = document.getElementById('id_number').value;
+                var idErrorSpan = document.getElementById('id_error');
+
+                if (!validateIDNumber(idNumber)) {
+                    idErrorSpan.textContent = 'ID number must be 13 digits long.';
+                    // Disable Save button if ID number is not 13 digits long
+                    document.getElementById('submit_button').disabled = true;
+                } else {
+                    idErrorSpan.textContent = ''; // Clear error message if input is valid
+                    // Enable Save button if ID number is 13 digits long
+                    document.getElementById('submit_button').disabled = false;
+                }
+            });
+        </script>
+
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" required>
+        <span id="email_message" style="color: red;"></span><br /><br />
+        <script>
+            // Function to check if the email contains a semicolon or comma
+            function checkEmail() {
+                var emailInput = document.getElementById('email');
+                var emailMessage = document.getElementById('email_message');
+                var submitButton = document.getElementById('submit_button');
+
+                if (emailInput.value.includes(';') || emailInput.value.includes(',')) {
+                    emailMessage.textContent = 'Email must not contain a semi-colon or comma';
+                    submitButton.disabled = true;
+                } else {
+                    emailMessage.textContent = '';
+                    toggleSubmitButton(); // Enable or disable submit button based on other validations
+                }
+            }
+
+            // Add event listener to the email input field to check for semicolons or commas
+            document.getElementById('email').addEventListener('input', checkEmail);
+        </script>
+
+        <label for="qualification">Qualification:</label>
+        <select name="qualification" required>
+            <option value="" disabled selected>Select your Faculty</option>
+            <option value="Faculty of Accounting and Informatics">Faculty of Accounting and Informatics</option>
+            <option value="Faculty of Applied Sciences">Faculty of Applied Sciences</option>
+            <option value="Faculty of Arts and Design">Faculty of Arts and Design</option>
+            <option value="Faculty of Engineering and Built Environment">Faculty of Engineering and Built Environment</option>
+            <option value="Faculty of Health Sciences">Faculty of Health Sciences</option>
+            <option value="Faculty of Management Sciences">Faculty of Management Sciences</option>
+        </select><br><br>
+
+        <label>Gender:</label><br>
+        <input type="radio" id="male" name="gender" value="Male">
+        <label for="male">Male</label><br>
+        <input type="radio" id="female" name="gender" value="Female">
+        <label for="female">Female</label><br>
+        <input type="radio" id="other" name="gender" value="Other">
+        <label for="other">Other</label><br><br>
+
+        <label for="proof_of_address">Proof of Address (PDF):</label>
+        <input type="file" id="proof_of_address" name="proof_of_address" accept=".pdf" required><br><br>
+
+        <label for="proof_of_registration">Proof of Registration (PDF):</label>
+        <input type="file" id="proof_of_registration" name="proof_of_registration" accept=".pdf" required><br><br>
+
+
+
+        <input type="submit" value="Submit Application" />
+
+    </form>
+</body>
+</html>
